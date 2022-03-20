@@ -22,8 +22,8 @@
   "conflicts": [
     
   ],
-  "scripts": [
-    "./wfrp-group-advantage.js"
+  "esmodules": [
+    "wfrp-group-advantage.js"
   ],
   "styles": [
     "styles/wfrp-group-advantage.css"
