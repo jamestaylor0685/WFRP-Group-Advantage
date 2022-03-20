@@ -50,6 +50,12 @@ class GroupAdvantage extends Application {
     html.find('input').focusin(ev => {
       ev.target.select()
     })
+
+    // Call setCounter when input is used
+    this.input = html.find('input').change(async ev => {
+      const type = $(ev.currentTarget).attr('data-type');
+      this.setCounter(ev.target.value, type);
+    });
   
 
     // Call changeCounter when +/- is used
