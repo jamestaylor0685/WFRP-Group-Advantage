@@ -3,7 +3,6 @@
   "title": "WFRP Group Advantage",
   "description": "A module to add simulation of the new group advantage rules from the Up in Arms supplement",
   "version": "This is auto replaced",
-  "library": "false",
   "manifestPlusVersion": "1.0.0",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
