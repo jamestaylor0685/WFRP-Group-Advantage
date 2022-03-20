@@ -6,8 +6,8 @@ First implementation is just a GM controlled resource tracker
 
 ## Future
 
-Allow players to click on ally pool bringing up a dialog to spend points for actions (this will not automate bonuses or outcomes, just the spending)
-Become smart enough to maybe automate some of the stuff
+- Allow players to click on ally pool bringing up a dialog to spend points for actions (this will not automate bonuses or outcomes, just the spending)
+- Become smart enough to maybe automate some of the stuff
 
 
 ## Special Thanks
