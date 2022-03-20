@@ -23,10 +23,10 @@
     
   ],
   "esmodules": [
-    "scripts/module.js"
+    "wfrp-group-advantage.js"
   ],
   "styles": [
-    "styles/module.css"
+    "styles/wfrp-group-advantage.css"
   ],
   "languages": [
     {

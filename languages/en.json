@@ -1,3 +1,13 @@
 {
-    "MODULE.hello": "hello"
+  "ga": {
+    "counter": {
+      "title": "Advantage Tracker",
+      "ally": {
+        "title": "Allies"
+      },
+      "adversary": {
+        "title": "Adversaries"
+      }
+    }
+  }
 }

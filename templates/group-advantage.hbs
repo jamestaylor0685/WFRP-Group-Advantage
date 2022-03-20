@@ -6,7 +6,7 @@
 
   <div class="ga-counters">
     <div class="ga-input">
-      <h3>Ally</h3>
+      <h3>{{localize 'ga.counter.ally.title'}}</h3>
       <div class="input-controls">
         <a {{#unless canEdit}}style="visibility: hidden"{{/unless}} class="decr">-</a> 
         <input type="number" data-type="ally" value="{{ally}}" 
@@ -17,7 +17,7 @@
     
     
     <div class="ga-input">
-      <h3>Adversary</h3>
+      <h3>{{localize 'ga.counter.adversary.title'}}</h3>
       <div class="input-controls">
         <a {{#unless (isGM)}}style="visibility: hidden"{{/unless}} class="decr">-</a>
         <input type="number" data-type="adversary" value="{{adversary}}" 
