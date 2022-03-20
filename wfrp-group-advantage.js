@@ -4,7 +4,7 @@ class GroupAdvantage extends Application {
     const options = super.defaultOptions;
     options.id = 'ga';
     options.title = game.i18n.localize("ga.counter.title");
-    options.template = `modules/WFRP-Group-Advantage/templates/group-advantage.hbs`;
+    options.template = `modules/wfrp-group-advantage/templates/group-advantage.hbs`;
     return options;
   }
 
@@ -127,7 +127,7 @@ Hooks.on('deleteCombat', async function () {
 });
 
 Hooks.on('socketlib.ready', () => {
-  socket = socketlib.registerModule('WFRP-Group-Advantage');
+  socket = socketlib.registerModule('wfrp-group-advantage');
   socket.register('updateClients', updateClients);
 })
 

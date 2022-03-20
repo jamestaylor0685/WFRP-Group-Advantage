@@ -17,7 +17,7 @@ First implementation is just a GM controlled resource tracker
 - [Foundry Virtual Tabletop](https://foundryvtt.com)
 
 ## Have an issue?
-Submit any issues on the [issues page](https://github.com/jamestaylor0685/WFRP-Group-Advantage/issues).
+Submit any issues on the [issues page](https://github.com/jamestaylor0685/wfrp-group-advantage/issues).
 
 ## Licence
-[MIT License](https://github.com/jamestaylor0685/WFRP-Group-Advantage/blob/master/LICENSE)
+[MIT License](https://github.com/jamestaylor0685/wfrp-group-advantage/blob/master/LICENSE)
