@@ -15,16 +15,15 @@
     }
   ],
   "dependencies": [
-
+    {
+      "name": "socketlib"
+    }
   ],
   "conflicts": [
     
   ],
   "esmodules": [
     "scripts/module.js"
-  ],
-  "scripts": [
-    "scripts/lib/lib.js"
   ],
   "styles": [
     "styles/module.css"
@@ -39,6 +38,7 @@
   "url": "This is auto replaced",
   "manifest": "This is auto replaced",
   "download": "This is auto replaced",
+  "socket": true,
   "license": "LICENSE",
   "readme": "README.md"
 }

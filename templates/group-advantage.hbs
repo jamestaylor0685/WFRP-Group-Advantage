@@ -1,0 +1,30 @@
+<div class="ga-app"> 
+
+  <div class="ga-controls">
+    <a class="handle"><i class="fas fa-grip-horizontal"></i></a>
+  </div>
+
+  <div class="ga-counters">
+    <div class="ga-input">
+      <h3>Ally</h3>
+      <div class="input-controls">
+        <a {{#unless canEdit}}style="visibility: hidden"{{/unless}} class="decr">-</a> 
+        <input type="number" data-type="ally" value="{{ally}}" 
+        {{#unless canEdit}}disabled{{/unless}}> 
+        <a  {{#unless canEdit}}style="visibility: hidden"{{/unless}} class="incr">+</a>
+      </div>
+    </div>
+    
+    
+    <div class="ga-input">
+      <h3>Adversary</h3>
+      <div class="input-controls">
+        <a {{#unless (isGM)}}style="visibility: hidden"{{/unless}} class="decr">-</a>
+        <input type="number" data-type="adversary" value="{{adversary}}" 
+        {{#unless (isGM)}}disabled{{/unless}}> 
+        <a {{#unless (isGM)}}style="visibility: hidden"{{/unless}} class="incr">+</a>
+      </div>
+    </div>
+  </div>
+
+  </div>
