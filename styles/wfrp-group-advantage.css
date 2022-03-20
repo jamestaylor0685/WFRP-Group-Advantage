@@ -15,6 +15,11 @@ div#ga .window-content {
   padding: 2rem;
 }
 
+.ga-header h3 {
+  font-size: 24px!important;
+  text-align: center;
+}
+
 .ga-counters {
   display: flex;
 }
@@ -65,6 +70,13 @@ div#ga .window-content {
   color: #790000;
   font-size: 30px;
   text-align: center;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
 }
 
 .ga-controls {

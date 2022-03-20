@@ -1,17 +1,4 @@
 
-/**
- * TODO
- * 
- * First functionality;
- * 
- * Create a popup with different views
- * IF player show only the ally advantage pool
- * IF GM show both ally and adversary pool
- * Add buttons to each field allowing simple increasing and decreasing, only to show to GM/assistant permissions
- * 
- * 
- */
-
 class GroupAdvantage extends Application {
   static get defaultOptions() {
     const options = super.defaultOptions;
@@ -117,7 +104,6 @@ Hooks.on('devModeReady', ({ registerPackageDebugFlag }) => {
 });
 
 Hooks.on('init', async function () {
-  CONFIG.debug.hooks = true;
   game.settings.register('ga', 'allies', {});
   game.settings.register('ga', 'adversaries', {});
   game.settings.register("ga", "counterPosition", {
@@ -127,12 +113,17 @@ Hooks.on('init', async function () {
   game.counter = new GroupAdvantage();
 });
 
-Hooks.on('updateCombat', async function () {
-  game.counter.render(true)
+Hooks.on("updateCombat", function (combat, update, options, userId) {
+  console.log("updateCombat");
+  if (update.round > 0) {
+    game.counter.render(true)
+  }
 });
 
 Hooks.on('deleteCombat', async function () {
   game.counter.close()
+  game.settings.set('ga', 'allies', 0);
+  game.settings.set('ga', 'adversaries', 0);
 });
 
 Hooks.on('socketlib.ready', () => {
