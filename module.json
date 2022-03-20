@@ -24,7 +24,7 @@
     
   ],
   "esmodules": [
-    "wfrp-group-advantage.js"
+    "./wfrp-group-advantage.js"
   ],
   "styles": [
     "styles/wfrp-group-advantage.css"
