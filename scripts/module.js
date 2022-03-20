@@ -26,8 +26,8 @@
    */
   getData() {
     const data = super.getData();
-    data.ally = 0;
-    data.adversary = 0;
+    data.ally = GroupAdvantage.getValue('allies') || 0;
+    data.adversary = GroupAdvantage.getValue('adversaries') || 0;
     data.canEdit =
       game.user.isGM;
 
@@ -113,10 +113,10 @@
   }
 
 
-  // static getValue(type)
-  // {
-  //     return game.settings.get("group-advantage", "counter", type);
-  // }
+  static getValue(type)
+  {
+      return game.settings.get("ga", type);
+  }
 
   // get glory()
   // {

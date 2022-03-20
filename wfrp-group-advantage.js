@@ -28,8 +28,8 @@ class GroupAdvantage extends Application {
    */
    getData() {
     const data = super.getData();
-    data.ally = game.settings.get('ga', 'allies');
-    data.adversary = game.settings.get('ga', 'adversaries');
+    data.ally = GroupAdvantage.getValue('allies') || 0;
+    data.adversary = GroupAdvantage.getValue('adversaries') || 0;
     data.canEdit =
       game.user.isGM;
 
@@ -55,10 +55,6 @@ class GroupAdvantage extends Application {
     game.settings.set("ga", "counterPosition", this.position)
   }
 
-  close(){
-    return
-  }
-
   activateListeners(html) {
     super.activateListeners(html);
 
@@ -67,37 +63,63 @@ class GroupAdvantage extends Application {
     html.find('input').focusin(ev => {
       ev.target.select()
     })
-    // Call setCounter when input is used
-    this.input = html.find('input').change(async ev => {
-      const type = $(ev.currentTarget).attr('data-type');
-      GroupAdvantage.setCounter(ev.target.value, type);
-    });
+  
 
     // Call changeCounter when +/- is used
     html.find('.incr,.decr').mousedown(async ev => {
       let input = $(ev.target.parentElement).find("input")
       const type = input.attr('data-type');
       const multiplier = $(ev.currentTarget).hasClass('incr') ? 1 : -1;
-      $(ev.currentTarget).toggleClass("clicked")
-      let newValue = await GroupAdvantage.changeCounter(parseInt(input[0].value, 10) ,1 * multiplier, type);
-      input[0].value = newValue
+      $(ev.currentTarget).toggleClass("clicked");
+      await this.changeCounter(parseInt(input[0].value, 10) ,1 * multiplier, type);
     });
 
     html.find('.incr,.decr').mouseup(ev => {
       $(ev.currentTarget).removeClass("clicked")
     });
   }
+
+  /**
+   * 
+   * @param {int} value Current input value
+   * @param {int} diff The multiplier
+   * @param {String} type The type to set, allies or adversaries
+   */
+  async changeCounter(value, diff, type) {
+    const newValue = value + diff;
+    if(newValue >= 0) {
+      return await this.setCounter(newValue, type);
+    }
+  }
+
+  /**
+   * 
+   * @param {int} value The new value to set
+   * @param {String} type The type to set, allies or adversaries
+   */
+  async setCounter(value, type) {
+    document.querySelector(`[data-type="${type}"]`).value = value;
+    if(game.user.isGM) {
+      await game.settings.set('ga', type, value);
+      await socket.executeForOthers('updateClients', value, type);
+    }
+    
+    return value;
+  }
+
+  static getValue(type) {
+    return game.settings.get("ga", type);
+  }
 }
 
-Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
+Hooks.on('devModeReady', ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(GroupAdvantage.ID);
 });
 
-Hooks.once('init', async function () {
+Hooks.on('init', async function () {
+  CONFIG.debug.hooks = true;
   game.settings.register('ga', 'allies', {});
-  game.settings.set('ga', 'allies', 0);
   game.settings.register('ga', 'adversaries', {});
-  game.settings.set('ga', 'adversaries', 0);
   game.settings.register("ga", "counterPosition", {
     top: 200,
     left: 250
@@ -105,11 +127,20 @@ Hooks.once('init', async function () {
   game.counter = new GroupAdvantage();
 });
 
-Hooks.once('ready', async function () {
+Hooks.on('updateCombat', async function () {
   game.counter.render(true)
 });
 
-Hooks.once('socketlib.ready', () => {
+Hooks.on('deleteCombat', async function () {
+  game.counter.close()
+});
+
+Hooks.on('socketlib.ready', () => {
   socket = socketlib.registerModule('WFRP-Group-Advantage');
-  
+  socket.register('updateClients', updateClients);
 })
+
+function updateClients(value, type) {
+  console.warn('updating clients');
+  game.counter.setCounter(value, type)
+}

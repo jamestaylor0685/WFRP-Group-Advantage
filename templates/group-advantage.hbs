@@ -9,7 +9,7 @@
       <h3>{{localize 'ga.counter.ally.title'}}</h3>
       <div class="input-controls">
         <a {{#unless canEdit}}style="visibility: hidden"{{/unless}} class="decr">-</a> 
-        <input type="number" data-type="ally" value="{{ally}}" 
+        <input type="number" data-type="allies" value="{{ally}}" 
         {{#unless canEdit}}disabled{{/unless}}> 
         <a  {{#unless canEdit}}style="visibility: hidden"{{/unless}} class="incr">+</a>
       </div>
@@ -20,7 +20,7 @@
       <h3>{{localize 'ga.counter.adversary.title'}}</h3>
       <div class="input-controls">
         <a {{#unless (isGM)}}style="visibility: hidden"{{/unless}} class="decr">-</a>
-        <input type="number" data-type="adversary" value="{{adversary}}" 
+        <input type="number" data-type="adversaries" value="{{adversary}}" 
         {{#unless (isGM)}}disabled{{/unless}}> 
         <a {{#unless (isGM)}}style="visibility: hidden"{{/unless}} class="incr">+</a>
       </div>
