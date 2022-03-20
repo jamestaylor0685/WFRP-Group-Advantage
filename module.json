@@ -23,7 +23,7 @@
   "conflicts": [
     
   ],
-  "esmodules": [
+  "scripts": [
     "./wfrp-group-advantage.js"
   ],
   "styles": [
