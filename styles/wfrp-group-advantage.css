@@ -10,8 +10,6 @@ div#ga .window-content {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  border-image: none;
-  border: 5px solid #790000;
   color: #790000;
   padding: 2rem;
 }
