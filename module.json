@@ -2,9 +2,7 @@
   "name": "wfrp-group-advantage",
   "title": "WFRP Group Advantage",
   "description": "A module to add simulation of the new group advantage rules from the Up in Arms supplement",
-  "version": "1.0.0",
-  "library": "false",
-  "manifestPlusVersion": "1.0.0",
+  "version": "1.0.2",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9",
   "authors": [{
@@ -19,8 +17,8 @@
     "name": "socketlib"
   }],
   "conflicts": [],
-  "esmodules": [
-    "./wfrp-group-advantage.js"
+  "scripts": [
+    "./scripts/wfrp-group-advantage.js"
   ],
   "styles": [
     "styles/wfrp-group-advantage.css"
@@ -32,7 +30,7 @@
   }],
   "url": "https://github.com/jamestaylor0685/wfrp-group-advantage",
   "manifest": "https://github.com/jamestaylor0685/wfrp-group-advantage/releases/latest/download/module.json",
-  "download": "https://github.com/jamestaylor0685/wfrp-group-advantage/releases/download/1.0.0/module.zip",
+  "download": "https://github.com/jamestaylor0685/wfrp-group-advantage/releases/download/1.0.2/module.zip",
   "socket": true,
   "license": "LICENSE",
   "readme": "README.md"
