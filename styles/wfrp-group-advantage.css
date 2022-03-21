@@ -6,6 +6,7 @@ div#ga .window-content {
   display: flex;
   flex-direction: row;
   background-image: url('../assets/parchment-texture.webp');
+  background-color: #E9E8DE;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
