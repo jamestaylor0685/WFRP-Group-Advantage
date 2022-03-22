@@ -69,8 +69,6 @@ div#ga .window-content {
   color: #790000;
   font-size: 30px;
   text-align: center;
-  border-left: 0;
-  border-right: 0;
   border-radius: 0;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -78,9 +76,65 @@ div#ga .window-content {
   -o-border-radius: 0;
 }
 
+.ga-input .input-controls input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 .ga-controls {
   font-size: 22px;
   position: absolute;
   top: 10px;
   left: 20px;
+}
+
+.ga-options-list {
+  position: absolute;
+  top: 85%;
+  left: 0;
+  width: 650px;
+  max-height: 200px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-image: url('../assets/parchment-texture.webp');
+  background-color: #E9E8DE;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 2px solid #790000;
+  padding: 1rem;
+  opacity: 0;
+  z-index: -1;
+  visibility: hidden;
+  transition: all .25s linear;
+  box-shadow: 0px 0px 9px 3px #000;
+}
+
+.ga-options-list.show {
+  opacity: 1;
+  z-index: 1;
+  visibility: visible;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem .25rem;
+  border-bottom: 1px solid #790000;
+}
+
+.option .cost {
+  width: 20%;
+  padding: 1rem .25rem;
+}
+
+.option .effect {
+  width:  30%;
+  padding: 1rem .25rem;
+}
+
+.option .description {
+  width: 50%;
+  padding: 1rem .25rem;
 }

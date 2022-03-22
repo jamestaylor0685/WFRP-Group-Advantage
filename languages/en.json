@@ -8,6 +8,10 @@
       "adversary": {
         "title": "Adversaries"
       }
-    }
+    },
+    "error": {
+      "cost": "There is not enough advantage available for this action"
+    },
+    "notice": "{char} uses {cost} advantage to perform {action}"
   }
 }

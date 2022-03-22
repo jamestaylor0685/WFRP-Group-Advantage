@@ -1,3 +1,5 @@
+
+
 class GroupAdvantage extends Application {
   static get defaultOptions() {
     const options = super.defaultOptions;
@@ -18,6 +20,33 @@ class GroupAdvantage extends Application {
     data.adversary = GroupAdvantage.getValue('adversaries') || 0;
     data.canEdit =
       game.user.isGM;
+    data.options = [
+      {
+        "cost": 1,
+        "action": "Batter",
+        "effect": "Perform an opposed Str test, whoever has the highest SL wins. If you win, your opponent gains the prone condition and gains 1 advantage. If you fail, your opponent gain 1 advantage and your action is over. You do not gain advantage from winning this test"
+      },
+      {
+        "cost": 1,
+        "action": "Trick",
+        "effect": "Perform an opposed Ag test, whoever has the highest SL wins. If you win you gain 1 advantage. If the circumstance suit, the GM may also add a condition (Ablaze, Blinded or Entangled). If you loose, your opponent gains 1 advantage and your action is over. You do not gain advantage from winning this test"
+      },
+      {
+        "cost": 2,
+        "action": "Additional effort",
+        "effect": "You gain a 10% bonus to any test, spending an addition advantage increases this by 10% per point spent (3 advantge for 20% bonus, 4 advantage for 30% e.t.c). You do not generate advantage when performing this action"
+      },
+      {
+        "cost": 2,
+        "action": "Flee from harm",
+        "effect": "You may move away from your opponent without penalty"
+      },
+      {
+        "cost": 4,
+        "action": "Additional action",
+        "effect": "You perform an additional action. This never generates advantage for the character performing it. Limit: once per turn"
+      }
+    ]
     return data;
   }
 
@@ -70,6 +99,48 @@ class GroupAdvantage extends Application {
 
     html.find('.incr,.decr').mouseup(ev => {
       $(ev.currentTarget).removeClass("clicked")
+    });
+
+    html.find('[data-type]').click(async ev => {
+      const list = html.find('.ga-options-list')[0];
+      const type = ev.currentTarget.dataset.type;
+      const options = list.querySelectorAll('.option');
+      options.forEach(option => {
+        option.dataset.matchedType = type;
+      });
+      if(game.user.isGM && type == 'adversaries') {
+        if(list.classList.contains('show')) {
+          list.classList.remove('show');
+        } else {
+          list.classList.add('show');
+        }
+      }
+      if(type == 'allies') {
+        if(list.classList.contains('show')) {
+          list.classList.remove('show');
+        } else {
+          list.classList.add('show');
+        }
+      }
+    });
+
+    html.find('.option').click(async ev => {
+      ev.preventDefault();
+      const list = html.find('.ga-options-list')[0];
+      const type = ev.currentTarget.dataset.matchedType;
+      const action = ev.currentTarget.dataset.action;
+      list.classList.remove('show');
+      const cost = parseInt(ev.currentTarget.dataset.cost, 10);
+      const value = document.querySelector(`[data-type="${type}"]`).value;
+      let newValue = value - cost;
+      if(newValue >= 0) {
+        document.querySelector(`[data-type="${type}"]`).value = newValue;
+        socket.executeForOthers('updateClients', newValue, type);
+        ui.notifications.notify(game.i18n.format("ga.notice", { char: game.user.isGM ? '' : game.user.charname, cost: cost, action: action }));
+      } else {
+        ui.notifications.error(game.i18n.format("ga.error.cost"));
+      }
+      return newValue;
     });
   }
 

@@ -14,7 +14,7 @@
       <div class="input-controls">
         <a {{#unless canEdit}}style="visibility: hidden"{{/unless}} class="decr">-</a> 
         <input type="number" data-type="allies" value="{{ally}}" 
-        {{#unless canEdit}}disabled{{/unless}}> 
+        {{#unless canEdit}}readonly{{/unless}}> 
         <a  {{#unless canEdit}}style="visibility: hidden"{{/unless}} class="incr">+</a>
       </div>
     </div>
@@ -25,10 +25,18 @@
       <div class="input-controls">
         <a {{#unless (isGM)}}style="visibility: hidden"{{/unless}} class="decr">-</a>
         <input type="number" data-type="adversaries" value="{{adversary}}" 
-        {{#unless (isGM)}}disabled{{/unless}}> 
+        {{#unless (isGM)}}readonly{{/unless}}> 
         <a {{#unless (isGM)}}style="visibility: hidden"{{/unless}} class="incr">+</a>
       </div>
     </div>
   </div>
-
+  <div class="ga-options-list">
+    {{#each options as |option index|}}
+      <div class="option" data-matched-type="" data-cost="{{option.cost}}" data-action="{{option.action}}">
+        <div class="cost">{{option.cost}} Advantage</div>
+        <div class="effect">{{option.action}}</div>
+        <div class="description">{{option.effect}}</div>
+      </div>
+    {{/each}}
   </div>
+</div>
