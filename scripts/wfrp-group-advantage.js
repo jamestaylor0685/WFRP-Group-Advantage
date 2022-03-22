@@ -1,4 +1,3 @@
-
 class GroupAdvantage extends Application {
   static get defaultOptions() {
     const options = super.defaultOptions;
@@ -19,15 +18,16 @@ class GroupAdvantage extends Application {
     data.adversary = GroupAdvantage.getValue('adversaries') || 0;
     data.canEdit =
       game.user.isGM;
-
     return data;
   }
 
   render(force=false, options={})
   {
-    let userPosition = game.settings.get("ga", "counterPosition");
-    options.top = userPosition.top || window.innerHeight - 200
-    options.left = userPosition.left || 250
+    options.top = game.settings.get("ga", "counterPositionTop") || 200;
+    options.left = game.settings.get("ga", "counterPositionLeft") || 250;
+    if(game.user.isGM) {
+      game.settings.set('ga', 'counterShown', true);
+    }
     super.render(force, options)
   }
 
@@ -39,7 +39,8 @@ class GroupAdvantage extends Application {
 
   setPosition(...args) {
     super.setPosition(...args);
-    game.settings.set("ga", "counterPosition", this.position)
+    game.settings.set("ga", "counterPositionTop", this.position.top);
+    game.settings.set("ga", "counterPositionLeft", this.position.left);
   }
 
   activateListeners(html) {
@@ -74,8 +75,8 @@ class GroupAdvantage extends Application {
 
   /**
    * 
-   * @param {int} value Current input value
-   * @param {int} diff The multiplier
+   * @param {Number} value Current input value
+   * @param {Number} diff The multiplier
    * @param {String} type The type to set, allies or adversaries
    */
   async changeCounter(value, diff, type) {
@@ -87,7 +88,7 @@ class GroupAdvantage extends Application {
 
   /**
    * 
-   * @param {int} value The new value to set
+   * @param {Number} value The new value to set
    * @param {String} type The type to set, allies or adversaries
    */
   async setCounter(value, type) {
@@ -103,6 +104,10 @@ class GroupAdvantage extends Application {
   static getValue(type) {
     return game.settings.get("ga", type);
   }
+
+  isShown() {
+    return this.data.shown; 
+  }
 }
 
 Hooks.on('devModeReady', ({ registerPackageDebugFlag }) => {
@@ -110,26 +115,66 @@ Hooks.on('devModeReady', ({ registerPackageDebugFlag }) => {
 });
 
 Hooks.on('init', async function () {
-  game.settings.register('ga', 'allies', {});
-  game.settings.register('ga', 'adversaries', {});
-  game.settings.register("ga", "counterPosition", {
-    top: 200,
-    left: 250
+  game.settings.register('ga', 'counterShown', {
+    default: false,
+    type: Boolean,
+    scope: 'world',
+    onChange: value => {
+      if(value) {
+        console.log('Advantage tracker shown');
+      } else {
+        console.log('Advantage tracker hidden');
+      }
+    }
+  });
+  game.settings.register('ga', 'allies', {
+    scope: 'world',
+    config: false,
+    type: Number,
+    onChange: value=> {
+      console.log('allies advantage', value)
+    } 
+  });
+  game.settings.register('ga', 'adversaries', {scope: 'world',
+  config: false,
+  type: Number,
+  onChange: value=> {
+    console.log('adversaries advantage', value)
+  } });
+  game.settings.register("ga", "counterPositionTop", {
+    default: 200,
+    scope: 'client',
+    type: Number
+  });
+  game.settings.register("ga", "counterPositionLeft", {
+    default: 250,
+    scope: 'client',
+    type: Number
   });
   game.counter = new GroupAdvantage();
 });
 
+Hooks.on('ready', async function() {
+  console.warn('You are using the development code!');
+  if(game.settings.get('ga', 'counterShown')) {
+    game.counter.render(true);
+  }
+})
+
 Hooks.on("updateCombat", function (combat, update, options, userId) {
   console.log("updateCombat");
-  if (update.round > 0) {
-    game.counter.render(true)
+  if (update.round > 0 && !game.settings.get('ga', 'counterShown')) {
+    game.counter.render(true);
   }
 });
 
 Hooks.on('deleteCombat', async function () {
   game.counter.close()
-  game.settings.set('ga', 'allies', 0);
-  game.settings.set('ga', 'adversaries', 0);
+  if(game.user.isGM) {
+    game.settings.set('ga', 'counterShown', false);
+    game.settings.set('ga', 'allies', 0);
+    game.settings.set('ga', 'adversaries', 0);
+  }
 });
 
 Hooks.on('socketlib.ready', () => {
