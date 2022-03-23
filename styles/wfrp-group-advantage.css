@@ -125,16 +125,16 @@ div#ga .window-content {
 }
 
 .option .cost {
-  width: 20%;
+  width: 100px;
   padding: 1rem .25rem;
 }
 
 .option .effect {
-  width:  30%;
+  width:  100px;
   padding: 1rem .25rem;
 }
 
 .option .description {
-  width: 50%;
+  width: calc(100% - 200px);
   padding: 1rem .25rem;
 }
