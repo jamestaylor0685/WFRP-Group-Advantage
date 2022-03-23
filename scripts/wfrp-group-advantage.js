@@ -136,7 +136,11 @@ class GroupAdvantage extends Application {
       if(newValue >= 0) {
         document.querySelector(`[data-type="${type}"]`).value = newValue;
         socket.executeForOthers('updateClients', newValue, type);
-        ui.notifications.notify(game.i18n.format("ga.notice", { char: game.user.isGM ? '' : game.user.charname, cost: cost, action: action }));
+        if(game.user.isGM) {
+          game.settings.set('ga', type, newValue);
+        }
+        this.showNotification(game.user.isGM ? 'Adversary' : game.user.charname, cost, action);
+        await socket.executeForOthers('notifyClients', game.user.isGM ? 'Adversary' : game.user.charname, cost, action);
       } else {
         ui.notifications.error(game.i18n.format("ga.error.cost"));
       }
@@ -170,6 +174,16 @@ class GroupAdvantage extends Application {
     }
     
     return value;
+  }
+
+  /**
+   * 
+   * @param {String} char The triggering character
+   * @param {Number} cost The cost of the action
+   * @param {String} action The action taken
+   */
+  async showNotification(char, cost, action) {
+    ui.notifications.notify(game.i18n.format("ga.notice", { char: char, cost: cost, action: action }));
   }
 
   static getValue(type) {
@@ -251,9 +265,15 @@ Hooks.on('deleteCombat', async function () {
 Hooks.on('socketlib.ready', () => {
   socket = socketlib.registerModule('wfrp-group-advantage');
   socket.register('updateClients', updateClients);
-})
+  socket.register('notifyClients', notifyClients);
+});
 
 function updateClients(value, type) {
   console.warn('updating clients');
   game.counter.setCounter(value, type)
+}
+
+function notifyClients(char, cost, action) {
+  console.warn('notify clients');
+  game.counter.showNotification(char, cost, action);
 }
